@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 import { startDb } from './database/db';
+import { initRoutes } from './routes/routes';
 
 startDb();
+initRoutes(app);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
