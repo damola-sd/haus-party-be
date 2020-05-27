@@ -30,9 +30,16 @@ const userSchema = new Schema(
           },
           password: {
             type: String,
-            // required: 'You need a password', Pass
+            required: 'You need a password', 
             minlength: 8
           },
+
+          confirmPassword: {
+            type: String,
+            required: 'You need a password', 
+            minlength: 8
+          },
+
           dateOfBirth: {
             type: Date
           },
