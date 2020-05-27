@@ -69,6 +69,9 @@ const eventSchema = new Schema({
       type: String,
     }
   ],
+  dressCode: {
+    type: String
+  },
   attendees: [ attendeeSchema ],
   updates: [ updateSchema ]
 });
