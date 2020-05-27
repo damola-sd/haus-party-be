@@ -52,6 +52,11 @@ const userSchema = new Schema(
             enum: ['customer', 'admin'],
             default: 'customer'
           },
+          status: {
+            type: String,
+            enum: ['active', 'deactivated', 'suspended'],
+            default: 'deactivated'
+        },
           facebook: {
               type: String,
               trim: true
@@ -63,7 +68,9 @@ const userSchema = new Schema(
           twitter: { 
             type: String,
             trim: true
-        }
+        }, 
+        passwordResetToken: String,
+        passwordResetExpires: Date
     }
 );
 
