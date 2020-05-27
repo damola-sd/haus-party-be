@@ -1,4 +1,5 @@
 const response = require('./response');
+const Boom = require('@hapi/boom');
 
 module.exports = {
     GetOne: async (model, condition = {}) => {
@@ -15,7 +16,7 @@ module.exports = {
             let result = await model.find(condition);
             return result;
         } catch (error) {
-            throw HTTPRESPONSE.NOT_FOUND("Record not found.");
+            throw Boom.notFound("Record not found.");
         }
     },
     Create: async (model, data) => {
