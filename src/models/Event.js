@@ -84,6 +84,14 @@ const eventSchema = new Schema({
   dressCode: {
     type: String
   },
+  price: {
+    type: Number,
+    required: true
+  },
+  maxAttendees: {
+    type: Number,
+    required: true
+  },
   attendees: [ attendeeSchema ],
   updates: [ updateSchema ]
 });
