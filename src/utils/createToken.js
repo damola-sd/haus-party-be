@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const { SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 const CreateToken = (user, time) => jwt.sign(
   {
@@ -12,7 +12,7 @@ const CreateToken = (user, time) => jwt.sign(
       role: user.role,
     },
   },
-  SECRET,
+  JWT_SECRET,
   { expiresIn: time || '3h' },
 );
 
