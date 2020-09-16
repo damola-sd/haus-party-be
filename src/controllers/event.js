@@ -7,7 +7,7 @@ const options = {
     provider: 'google',
 
     httpAdapter: 'https',
-    apiKey: 'AIzaSyBJEkgJFGeEbzd8TSZKB3UPVFSanf5zoFI',
+    apiKey: process.env.GEOCODER_KEY,
     formatter: null
 };
 let geocoder = NodeGeoCoder(options);
