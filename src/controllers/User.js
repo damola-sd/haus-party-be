@@ -71,7 +71,7 @@ class User {
         });
       }
     } catch (error) {
-      return res.status(500).json({ message: 'An error occur', error });
+      return res.status(500).json({ message: "An error occur", error });
     }
   }
 
@@ -83,28 +83,25 @@ class User {
    * @memberof User class
    */
 
-   static async getUser(req, res) {
-     try {
-       const { username } = req.decoded;
-       const userDetails = await user.findByUsername(username);
-       if (userDetails) {
+  static async getUser(req, res) {
+    try {
+      const { username } = req.decoded;
+      const userDetails = await user.findByUsername(username);
+      if (userDetails) {
         return res.status(200).json({
-          message: 'Request was successful',
+          message: "Request was successful",
           userInfo: userDetails,
         });
       }
       return res.status(404).json({
         message:
-          'You do not seem to be registered, please sign up or try again',
+          "You do not seem to be registered, please sign up or try again",
       });
-
-
-     } catch (error) {
-      return res.status(500).json({ message: 'An error occur', error });
-     }
-
-   }
-    /**
+    } catch (error) {
+      return res.status(500).json({ message: "An error occur", error });
+    }
+  }
+  /**
    *
    *
    * @static
@@ -115,20 +112,44 @@ class User {
    */
   static async getUserByEmail({ query: { email } }, res) {
     try {
-      const userDetails = await user
-        .findOne({ email })
+      const userDetails = await user.findOne({ email });
       if (userDetails) {
         return res.status(200).json({
-          message: 'Request was successful',
+          message: "Request was successful",
           userInfo: userDetails,
         });
       }
       return res.status(404).json({
         message:
-          'You do not seem to be registered, please sign up or try again',
+          "You do not seem to be registered, please sign up or try again",
       });
     } catch (error) {
-      return res.status(500).json({ message: 'An error occur', error });
+      return res.status(500).json({ message: "An error occur", error });
+    }
+  }
+
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+  static async validateToken(req, res) {
+    try {
+      const { username } = req.decoded;
+      await user.init();
+      const foundUser = await user.findByUsername(username);
+      if (foundUser) {
+        return res.status(200).json({
+          message: "You've registered",
+        });
+      }
+      return res.status(404).json({
+        message: "You do not seem to be registered",
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "An error occur", error });
     }
   }
 }
