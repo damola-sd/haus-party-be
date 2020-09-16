@@ -101,4 +101,8 @@ function softDeleteMiddleware(next) {
 userSchema.pre('find', softDeleteMiddleware);
 userSchema.pre('findOne', softDeleteMiddleware);
 
+userSchema.statics.findByUsername = function (username, cb) {
+  return this.findOne({ username }, cb);
+};
+
 export const User = mongoose.model("User", userSchema);

@@ -74,4 +74,33 @@ class User {
       return res.status(500).json({ message: 'An error occur', error });
     }
   }
+
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+
+   static async getUser(req, res) {
+     try {
+       const { username } = req.decoded;
+       const userDetails = await user.findByUsername(username);
+       if (userDetails) {
+        return res.status(200).json({
+          message: 'Request was successful',
+          userInfo: userDetails,
+        });
+      }
+      return res.status(404).json({
+        message:
+          'You do not seem to be registered, please sign up or try again',
+      });
+
+
+     } catch (error) {
+      return res.status(500).json({ message: 'An error occur', error });
+     }
+   }
 }
