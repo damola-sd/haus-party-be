@@ -34,18 +34,16 @@ const userSchema = new Schema(
       minlength: 8,
     },
 
-    confirmPassword: {
-      type: String,
-      required: "You need a password",
-      minlength: 8,
-    },
-
     dateOfBirth: {
       type: Date,
     },
     profilePicture: {
       type: String,
       trim: true,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
     },
     role: {
       type: String,
