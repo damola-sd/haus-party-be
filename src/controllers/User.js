@@ -102,5 +102,33 @@ class User {
      } catch (error) {
       return res.status(500).json({ message: 'An error occur', error });
      }
+
    }
+    /**
+   *
+   *
+   * @static
+   * @param {object} { params: { slug } }
+   * @param {object} res
+   * @returns {json} response
+   * @memberof User
+   */
+  static async getUserByEmail({ query: { email } }, res) {
+    try {
+      const userDetails = await user
+        .findOne({ email })
+      if (userDetails) {
+        return res.status(200).json({
+          message: 'Request was successful',
+          userInfo: userDetails,
+        });
+      }
+      return res.status(404).json({
+        message:
+          'You do not seem to be registered, please sign up or try again',
+      });
+    } catch (error) {
+      return res.status(500).json({ message: 'An error occur', error });
+    }
+  }
 }
