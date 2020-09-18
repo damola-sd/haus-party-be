@@ -56,6 +56,20 @@ const userSchema = new Schema(
       enum: ["active", "deactivated", "suspended"],
       default: "deactivated",
     },
+    currentSubscription: {
+      type: Schema.Types.ObjectId,
+      ref: 'Subscription'
+    },
+    subscriptionDateStarted: {
+      type: Date
+    },
+    subscriptionDateEnded: {
+      type: Date,
+    },
+    hasActiveSubscription: {
+      type: Boolean,
+      default: false
+    },
     isDeleted: {
       type: Boolean,
       default: false
