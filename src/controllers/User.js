@@ -84,7 +84,7 @@ class User {
    * @memberof User class
    */
 
-  static async getUser(req, res) {
+  static async getUserByUsername(req, res) {
     try {
       const { username } = req.decoded;
       const userDetails = await user.findByUsername(username);
@@ -230,6 +230,37 @@ class User {
           status: false,
         });
       }
+    } catch (error) {
+      return res.status(500).json({ message: "An error occurred", error });
+    }
+  }
+
+  static async sendVerificationCode(req, res) {
+    try {
+      const { username } = req.decoded;
+      let { phoneNumber } = req.body;
+      // contactMobile = parseInt(contactMobile, 10); // remove leading zero
+
+      await user.findOneAndUpdate({ username }, { phoneNumber });
+
+      const verificationRequest = await twilioSetup.verify
+        .services(VERIFICATION_SID)
+        .verifications.create({
+          to: phoneNumber,
+          channel: 'sms',
+        });
+
+      if (!verificationRequest) {
+        return res.status(401).json({
+          message: 'Error occurred while processing request',
+          success: false,
+        });
+      }
+
+      return res.status(200).json({
+        message: `a code has been sent to +234${contactMobile}`,
+        success: true,
+      });
     } catch (error) {
       return res.status(500).json({ message: "An error occurred", error });
     }
