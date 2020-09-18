@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import user from "../models/User";
 import newUserMail from "../utils/mail-templates/newUserMail";
+import forgotPassword from "../utils/mail-templates/forgotPassword";
 import sendMail from "../utils/sendMail";
 import createToken from "../utils/createToken";
 import { createUser as setUser } from "../utils/createUser";
@@ -152,4 +153,88 @@ class User {
       return res.status(500).json({ message: "An error occur", error });
     }
   }
+
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+  static async requestAChangeOfPassword(req, res) {
+    try {
+      const { email } = req.body;
+      const userFound = await user.findOne({ email });
+
+      if (userFound) {
+        // 15 minutes - 60seconds * 15
+        const token = createToken(userFound, 900);
+        const data = forgotPassord(email, baseUrl, token);
+        await sendMail(data);
+        return res.status(200).json({
+          message: "A mail has been sent for your password reset",
+        });
+      }
+      return res.status(404).json({
+        message: "An error occur please check your email and try again",
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "An error occur", error });
+    }
+  }
+
+
+    /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+  static async changePassword(req, res) {
+    try {
+      const {
+        decoded: { username },
+        body: { password },
+      } = req;
+      const hash = bcrypt.hashSync(password, 10);
+      await user.findOneAndUpdate(
+        { username }, { password: hash },
+      );
+
+      return res.status(200).json({
+        message: 'Password Successfully Changed',
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "An error occurred", error });
+
+    }
+  }
+
+   /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+  static async validateEmail({ params: { id } }, res) {
+    try {
+      const data = await user.findOne({ email: id });
+      if (data) {
+        res.status(200).json({
+          status: true,
+        });
+      } else {
+        res.status(200).json({
+          status: false,
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({ message: "An error occurred", error });
+    }
+  }
+
 }
+
+export default User;
