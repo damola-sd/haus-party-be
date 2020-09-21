@@ -13,9 +13,9 @@ export const addressSchema = new Schema({
         type: String,
     },
     latitude: {
-        type: Number
+        type: String
     },
     longitude: {
-        type: Number
+        type: String
     },
 })
