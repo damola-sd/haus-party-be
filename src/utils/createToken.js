@@ -5,6 +5,7 @@ const { JWT_SECRET } = process.env;
 const CreateToken = (user, time) => jwt.sign(
   {
     data: {
+      id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
