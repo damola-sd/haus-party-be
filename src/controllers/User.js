@@ -91,7 +91,7 @@ class User {
       if (userDetails) {
         return res.status(200).json({
           message: "Request was successful",
-          userInfo: userDetails,
+          user: userDetails,
         });
       }
       return res.status(404).json({
@@ -126,6 +126,36 @@ class User {
       });
     } catch (error) {
       return res.status(500).json({ message: "An error occur", error });
+    }
+  }
+
+
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+  static async modifyUser(req, res) {
+    try {
+      const { username } = req.decoded;
+      if (req.body.password) {
+        const { password } = req.body;
+        req.body.password = bcrypt.hashSync(password, 10);
+      }
+      await user.init();
+      const updatedUser = await user
+        .findOneAndUpdate({ username }, { ...req.body }, { new: true });
+
+      return res.status(200).json({
+        message: 'User edited successfully',
+        updatedUser,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
     }
   }
 
