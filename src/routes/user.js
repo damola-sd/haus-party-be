@@ -26,6 +26,8 @@ const {
   sendVerificationCode,
 } = User;
 
+router.route("/profile")
+.get(checkUserIsAuthenticated, getUserByEmail);
 router.post("/signup", validateRegistrationCredentials, registerUser);
 router.post("/login", validateSignInCredentials, login);
 router.get("/validate/:id", validateEmail);
@@ -35,6 +37,10 @@ router.post(
   checkThatNumberIsNotVerified,
   sendVerificationCode
 );
+router.post("/reset", validateEmailOnRequest, requestAChangeOfPassword);
+router.put("/reset", checkUserIsAuthenticated,validateChangePassword, changePassword);
+router.get("/token/validate", checkUserIsAuthenticated, validateToken);
+router.get("/username", checkUserIsAuthenticated, getUserByUsername);
 
 
 module.exports = router;
