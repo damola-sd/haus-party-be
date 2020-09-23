@@ -35,4 +35,6 @@ router.post(
   checkThatNumberIsNotVerified,
   sendVerificationCode
 );
-router.post('/verify-phone', checkUserIsAuthenticated,)
+
+
+module.exports = router;
