@@ -11,11 +11,5 @@ export const addressSchema = new Schema({
     },
     country: {
         type: String,
-    },
-    latitude: {
-        type: String
-    },
-    longitude: {
-        type: String
-    },
+    }
 })
