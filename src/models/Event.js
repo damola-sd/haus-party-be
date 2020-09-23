@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-import { addressSchema } from './Address';
+// import { addressSchema } from './Address';
 
 const updateSchema = new Schema(
   {
@@ -39,6 +39,30 @@ const attendeeSchema = new Schema({
   }
 });
 
+const pointSchema = new Schema({
+  type: {
+    type: String,
+    enum: ['Point'],
+    required: true,
+  },
+  coordinates: {
+    type: [],
+  },
+});
+
+export const addressSchema = new Schema({
+  address: {
+      type: String,
+      required: true, 
+  },
+  city: {
+      type: String,
+  },
+  country: {
+      type: String,
+  }
+})
+
 const eventSchema = new Schema({
   title: {
     type: String,
@@ -48,9 +72,10 @@ const eventSchema = new Schema({
     type: String,
   },
   location: {
-    type: addressSchema,
+    type: pointSchema,
     required: true,
   },
+  address: addressSchema,
   date: {
     type: Date,
     required: true,

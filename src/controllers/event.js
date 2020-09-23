@@ -31,7 +31,7 @@ class Event {
             const newEvent = {
                 title,
                 description,
-                location: {
+                address: {
                     address,
                     city,
                     country,
@@ -46,8 +46,8 @@ class Event {
             const locationData = geocoder.geocode(address);
             const createdEvent = await dbQuery.Create(event, newEvent);
             if (createdEvent) {
-                createdEvent.location.latitude = locationData.latitude;
-                createdEvent.location.longitude = locationData.longitude;
+                createdEvent.location.coordinates = [locationData.longitude, locationData.latitude];
+
                 createdEvent.save().then((event, error) => {
                     if (error) response.error(500, `Error: ${error.message}`)
                     response.success(res, 200, event);
@@ -68,10 +68,22 @@ class Event {
    * @memberof Event
    */
     static async getEvents(req, res) {
-        const events = await Event.find({});
-        if (events) {
-            return response.success(res, 200, events);
+        try{
+            const events = await event.find({});
+            if (!events) {
+                return res.status(400).json({ 
+                   message: "Could not fetch events"
+                });
+
+            }
+            return res.status(200).json({ 
+                message: "Successfully fetched events",
+                data: events
+            });
+        }catch (error) {
+            res.status(500).json({message: err.message})
         }
+        
     }
     
      /**
@@ -82,11 +94,19 @@ class Event {
    * @memberof Event
    */
     static async getEvent (req, res) {
-        const event = await Event.findById(req.params.id);
-        if (!event) {
-            response.error(res, 400, 'Event does not exist')
+        const event = await event.findById(req.params.id);
+        try{
+            if (!event) {
+                response.error(res, 400, 'Event does not exist')
+            }
+            return res.status(202).json({
+                message: "Fetched event"
+            });
+        
+        }catch (error) {
+            res.status(500).json(err.message)
         }
-        response.success(res, 200, event);
+        
     }
     
      /**
@@ -97,8 +117,25 @@ class Event {
    * @memberof Event
    */
     static async getEventByCity (req, res) {
-    
-        const events = await Event.find()
+        try {
+            const { city } = req.query;
+            const events = await event.find({location: { city }});
+            if(!events.length > 0) {
+                res.status(401).json({
+                    message: `No event found in ${city}`
+                })
+            }
+            return res.status(200).json({
+                message: `Found some events in ${city}`
+            })
+        } catch(error) {
+            res.status(500).json({
+               message: error.message 
+            })
+
+        }
+        
+
     }
     
      /**
@@ -112,7 +149,7 @@ class Event {
     static async getNearByEvents (req, res) {
         try {
             const {
-                longitude, lattitude, page, limit,
+                longitude, lattitude,
               } = req.query;
               const nearByEvents = await event.find({locationQuery(longitude, lattitude) });
               if (nearByEvents.length > 0) {
@@ -135,3 +172,6 @@ class Event {
 
     
 }
+
+export default Event;
+
