@@ -35,6 +35,7 @@
     "node-geocoder": "^3.27.0",
     "nodemailer": "^6.4.6",
     "nodemon": "^2.0.4",
+    "stripe": "^8.97.0",
     "twilio": "^3.49.1",
     "validatorjs": "^3.19.2"
   }
