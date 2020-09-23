@@ -47,7 +47,7 @@ const eventSchema = new Schema({
   description: {
     type: String,
   },
-  address: {
+  location: {
     type: addressSchema,
     required: true,
   },
