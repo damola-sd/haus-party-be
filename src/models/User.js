@@ -51,6 +51,10 @@ const userSchema = new Schema(
       enum: ["customer", "admin"],
       default: "customer",
     },
+    defaultCard: {
+      type: Schema.Types.ObjectId,
+      ref: "Card",
+    },
     status: {
       type: String,
       enum: ["active", "deactivated", "suspended"],
@@ -58,21 +62,21 @@ const userSchema = new Schema(
     },
     currentSubscription: {
       type: Schema.Types.ObjectId,
-      ref: 'Subscription'
+      ref: "Subscription",
     },
     subscriptionDateStarted: {
-      type: Date
+      type: Date,
     },
     subscriptionDateEnded: {
       type: Date,
     },
     hasActiveSubscription: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isDeleted: {
       type: Boolean,
-      default: false
+      default: false,
     },
     facebook: {
       type: String,
@@ -90,13 +94,11 @@ const userSchema = new Schema(
     passwordResetExpires: Date,
   },
   {
-    
     timestamps: true,
   }
 );
 
-
-userSchema.index({ '$**': 'text' });
+userSchema.index({ "$**": "text" });
 
 /**
  *
@@ -112,8 +114,8 @@ function softDeleteMiddleware(next) {
   next();
 }
 
-userSchema.pre('find', softDeleteMiddleware);
-userSchema.pre('findOne', softDeleteMiddleware);
+userSchema.pre("find", softDeleteMiddleware);
+userSchema.pre("findOne", softDeleteMiddleware);
 
 userSchema.statics.findByUsername = function (username, cb) {
   return this.findOne({ username }, cb);
