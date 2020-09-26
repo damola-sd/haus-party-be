@@ -6,7 +6,7 @@ const feedbackSchema = new Schema({
         type: String,
         required: true
     }, 
-    description: {
+    feedback: {
         type: String
     }
 });
