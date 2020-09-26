@@ -26,13 +26,13 @@ class Event {
    */
     static async createEvent(req, res) {
         try {
-            const { title, description, date, time, dressCode, price, maxAttendees, address, city, country } = req.body;
+            const { title, description, date, time, dressCode, price, maxAttendees, addr, city, country } = req.body;
     
             const newEvent = {
                 title,
                 description,
                 address: {
-                    address,
+                    addr,
                     city,
                     country,
                 },
@@ -42,8 +42,8 @@ class Event {
                 price,
                 maxAttendees
             };
-            const address = `${req.body.address}, ${req.body.city}, ${req.body.country}`;
-            const locationData = geocoder.geocode(address);
+            const partyAddress = `${req.body.address}, ${req.body.city}, ${req.body.country}`;
+            const locationData = geocoder.geocode(partyAddress);
             const createdEvent = await dbQuery.Create(event, newEvent);
             if (createdEvent) {
                 createdEvent.location.coordinates = [locationData.longitude, locationData.latitude];
