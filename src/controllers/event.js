@@ -151,14 +151,14 @@ class Event {
             const {
                 longitude, lattitude,
               } = req.query;
-              const nearByEvents = await event.find({locationQuery(longitude, lattitude) });
-              if (nearByEvents.length > 0) {
+            const nearByEvents = await event.find({locationQuery(longitude, lattitude) });
+            if (nearByEvents.length > 0) {
                   return response.status(200).json({
                     message: 'Found nearby events', 
                     nearByEvents 
                   });
               }
-              response.status(400).json({
+              return response.status(400).json({
                   message: 'There are no events in the area'
               })
 
