@@ -119,7 +119,7 @@ class Event {
     static async getEventByCity (req, res) {
         try {
             const { city } = req.query;
-            const events = await event.find({location: { city }});
+            const events = await event.find({address: { city }});
             if(!events.length > 0) {
                 res.status(401).json({
                     message: `No event found in ${city}`

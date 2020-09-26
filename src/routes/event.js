@@ -17,4 +17,5 @@ const {
 
 router.post("/create", checkUserIsAuthenticated, checkUserIsAdmin, createEvent);
 router.get("/all", checkUserIsAuthenticated, getEvents);
-router.get(":id", checkUserIsAuthenticated, getEvent);
+router.get("/:id", checkUserIsAuthenticated, getEvent);
+router.get("/nearby", checkUserIsAuthenticated, getNearByEvents, getEventByCity);
