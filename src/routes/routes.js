@@ -1,6 +1,6 @@
 import userRoutes from '../routes/user';
 import eventRouters from '../routes/event';
-import cardRouters from '../routes/card';
+// import cardRouters from '../routes/card';
 import feedbackRouters from '../routes/feedback';
 
 

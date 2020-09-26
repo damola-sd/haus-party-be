@@ -10,3 +10,6 @@ const {
 
 router.post("/create", createFeedback);
 router.get("/all", checkUserIsAdmin, getFeedbacks);
+
+
+module.exports = router;
