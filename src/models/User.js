@@ -41,6 +41,10 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
+    imageId: {
+      type: String,
+      required: false
+    },
     verified: {
       type: Boolean,
       default: false,

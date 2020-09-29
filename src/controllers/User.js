@@ -129,7 +129,6 @@ class User {
     }
   }
 
-
   /**
    *
    * @param {object} req
@@ -145,11 +144,14 @@ class User {
         req.body.password = bcrypt.hashSync(password, 10);
       }
       await user.init();
-      const updatedUser = await user
-        .findOneAndUpdate({ username }, { ...req.body }, { new: true });
+      const updatedUser = await user.findOneAndUpdate(
+        { username },
+        { ...req.body },
+        { new: true }
+      );
 
       return res.status(200).json({
-        message: 'User edited successfully',
+        message: "User edited successfully",
         updatedUser,
       });
     } catch (error) {
@@ -213,8 +215,7 @@ class User {
     }
   }
 
-
-    /**
+  /**
    *
    * @param {object} req
    * @param {object} res
@@ -228,20 +229,17 @@ class User {
         body: { password },
       } = req;
       const hash = bcrypt.hashSync(password, 10);
-      await user.findOneAndUpdate(
-        { username }, { password: hash },
-      );
+      await user.findOneAndUpdate({ username }, { password: hash });
 
       return res.status(200).json({
-        message: 'Password Successfully Changed',
+        message: "Password Successfully Changed",
       });
     } catch (error) {
       return res.status(500).json({ message: "An error occurred", error });
-
     }
   }
 
-   /**
+  /**
    *
    * @param {object} req
    * @param {object} res
@@ -265,6 +263,32 @@ class User {
     }
   }
 
+  /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} response data
+   * @memberof User class
+   */
+
+  static async uploadUserImage(req, res, next) {
+    try {
+      const { file } = req;
+      const { username } = req.decoded;
+      await user.init();
+      const userProfile = await user.findByUsername(username);
+      userProfile.profilePicture = file.secure_url;
+      userProfile.imageId = file.public_id;
+      userProfile.save().then((response) => {
+        res.status(201).json({
+          message: `Successfully uploaded user ${username} profile image`,
+        });
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "An error occurred", error });
+    }
+  }
+
   static async sendVerificationCode(req, res) {
     try {
       const { username } = req.decoded;
@@ -277,12 +301,12 @@ class User {
         .services(VERIFICATION_SID)
         .verifications.create({
           to: phoneNumber,
-          channel: 'sms',
+          channel: "sms",
         });
 
       if (!verificationRequest) {
         return res.status(401).json({
-          message: 'Error occurred while processing request',
+          message: "Error occurred while processing request",
           success: false,
         });
       }
@@ -295,7 +319,6 @@ class User {
       return res.status(500).json({ message: "An error occurred", error });
     }
   }
-
 }
 
 export default User;

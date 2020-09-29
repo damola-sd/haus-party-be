@@ -10,4 +10,7 @@ export const {
   TWILIO_AUTH_TOKEN,
   VERIFICATION_SID,
   STRIPE_SECRET_KEY,
+  cloudinaryName,
+  cloudinaryApiKey,
+  cloudinaryApiSecret
 } = process.env;
