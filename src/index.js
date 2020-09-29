@@ -2,12 +2,14 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const routes = require('./routes/routes');
 
 import { startDb } from './database/db';
-import { initRoutes } from './routes/routes';
+
 
 startDb();
-initRoutes(app);
+
+app.use('/api/v1', routes);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
