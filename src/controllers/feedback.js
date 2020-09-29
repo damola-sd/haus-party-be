@@ -1,4 +1,4 @@
-import feedback from "../models/feedback";
+import feedback from "../models/Feedback";
 const dbQuery = require("../utils/dbQueries");
 
 class Feedback {
