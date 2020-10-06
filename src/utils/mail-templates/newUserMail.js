@@ -8,7 +8,7 @@
 export default (email, firstName) => ({
     from: 'Haus Party <dev.hausparty@gmail.com>',
     to: email,
-    subject: `Congrats ${firstName} for comming on MyBukka`,
+    subject: `Congrats ${firstName} for comming on HausParty`,
     text:
       `Hi ${firstName}.\n\n`
       + 'Welcome to HausParty. We wanted to thank you for considering HausParty for your house parties.\n\n'

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from "../config/constants";
 
 const checkUserIsAuthenticated = (req, res, next) => {
   try {
@@ -8,7 +9,7 @@ const checkUserIsAuthenticated = (req, res, next) => {
         message: 'no token found',
       });
     }
-    const { JWT_SECRET } = process.env;
+    // const { JWT_SECRET } = process.env;
     const decoded = jwt.verify(token, JWT_SECRET).data;
     req.decoded = decoded;
     next();

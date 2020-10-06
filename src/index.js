@@ -6,12 +6,13 @@ const routes = require('./routes/routes');
 
 import { startDb } from './database/db';
 
+const jsonParser = bodyParser.json();
 
 startDb();
-
+app.use(jsonParser);
 app.use('/api/v1', routes);
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.get('/', (req, res) => { res.send("Welcome to the Haus Party Backend")})

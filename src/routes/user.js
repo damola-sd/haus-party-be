@@ -29,7 +29,7 @@ const {
 } = User;
 
 router.route("/profile")
-.get(checkUserIsAuthenticated, getUserByEmail)
+.get(checkUserIsAuthenticated, getUserByUsername)
 .put(checkUserIsAuthenticated, modifyUser)
 router.post("/signup", validateRegistrationCredentials, registerUser);
 router.post("/login", validateSignInCredentials, login);

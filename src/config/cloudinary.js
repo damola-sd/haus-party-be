@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 import {
   cloudinaryName,
   cloudinaryApiKey,
@@ -12,7 +12,7 @@ cloudinary.config({
   api_secret: cloudinaryApiSecret,
 });
 
-const storage = cloudinaryStorage({
+const storage = new CloudinaryStorage({
   cloudinary,
   folder: "hausparty",
   allowedFormats: ["jpg", "png"],

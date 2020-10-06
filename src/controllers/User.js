@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import user from "../models/User";
+import { User as user } from "../models/User";
 import newUserMail from "../utils/mail-templates/newUserMail";
 import forgotPassword from "../utils/mail-templates/forgotPassword";
 import sendMail from "../utils/sendMail";
@@ -26,7 +26,6 @@ class User {
         ...req.body,
         password: hash,
       });
-
       const data = newUserMail(email, firstName);
       await sendMail(data);
 

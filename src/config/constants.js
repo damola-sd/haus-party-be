@@ -12,5 +12,6 @@ export const {
   STRIPE_SECRET_KEY,
   cloudinaryName,
   cloudinaryApiKey,
-  cloudinaryApiSecret
+  cloudinaryApiSecret,
+  JWT_SECRET
 } = process.env;
