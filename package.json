@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/index.js",
+    "start": "npm run-script build && node ./dist/index.js",
     "build": "rm -rf dist/ && babel src/ -d dist/ --copy-files",
     "dev": "nodemon --exec babel-node -- ./src/index.js",
     "lint": "eslint"
