@@ -1,9 +1,9 @@
 export const createUser = (registeredUser) => {
     const {
-      firstName, lastName, phoneNumber, verified, profilePicture, username
+      _id,firstName, lastName, phoneNumber, verified, profilePicture, username, dateOfBirth
     } = registeredUser;
     return {
-      firstName, lastName, phoneNumber, verified, profilePicture, username
+      _id, firstName, lastName, phoneNumber, verified, profilePicture, username, dateOfBirth
     };
   };
   
