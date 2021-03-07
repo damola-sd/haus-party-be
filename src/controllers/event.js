@@ -5,10 +5,11 @@ const event = require('../models/Event');
 const NodeGeoCoder = require('node-geocoder');
 
 const options = {
-    provider: 'google',
+    provider: 'here',
 
     httpAdapter: 'https',
-    apiKey: process.env.GEOCODER_KEY,
+    apiKey: process.env.HERE_KEY,
+    
     formatter: null
 };
 let geocoder = NodeGeoCoder(options);
@@ -27,7 +28,8 @@ class Event {
     static async createEvent(req, res) {
         try {
             const { title, description, date, time, dressCode, price, maxAttendees, addr, city, country } = req.body;
-    
+            const partyAddress = `${req.body.address}, ${req.body.city}, ${req.body.country}`;
+            const locationData =  await geocoder.geocode(partyAddress);
             const newEvent = {
                 title,
                 description,
@@ -40,23 +42,28 @@ class Event {
                 time,
                 dressCode,
                 price,
-                maxAttendees
+                maxAttendees,
+                location: {
+                    coordinates: [locationData[1].longitude, locationData[1].latitude]
+                }
             };
-            const partyAddress = `${req.body.address}, ${req.body.city}, ${req.body.country}`;
-            const locationData = geocoder.geocode(partyAddress);
             const createdEvent = await dbQuery.Create(event, newEvent);
-            if (createdEvent) {
-                createdEvent.location.coordinates = [locationData.longitude, locationData.latitude];
-
-                createdEvent.save().then((event, error) => {
-                    if (error) response.error(500, `Error: ${error.message}`)
-                    response.success(res, 200, event);
+            if(createdEvent) {
+                return res.status(200).json({ 
+                    message: "Successfully created event",
+                    data: createdEvent
+                });
+            }
+            else {
+                res.status(403).json({
+                    message: "Could not create event"
                 })
             }
-            res.status(401).json({message: 'Could not create event'});
+            
     
         } catch (error) {
-            throw error
+            res.status(500).json({message: err.message})
+
         }
     }
     

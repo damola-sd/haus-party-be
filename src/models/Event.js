@@ -44,6 +44,7 @@ const pointSchema = new Schema({
     type: String,
     enum: ['Point'],
     required: true,
+    default: 'Point'
   },
   coordinates: {
     type: [],
@@ -53,7 +54,7 @@ const pointSchema = new Schema({
 export const addressSchema = new Schema({
   address: {
       type: String,
-      required: true, 
+       
   },
   city: {
       type: String,
@@ -73,7 +74,7 @@ const eventSchema = new Schema({
   },
   location: {
     type: pointSchema,
-    required: true,
+    required: true
   },
   address: addressSchema,
   date: {
@@ -104,4 +105,5 @@ const eventSchema = new Schema({
   updates: [ updateSchema ]
 });
 
-export const Event = mongoose.model('Event', eventSchema);
+// export const Event = mongoose.model('event', eventSchema);
+module.exports =  mongoose.model('event', eventSchema)

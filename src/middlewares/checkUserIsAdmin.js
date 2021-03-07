@@ -2,9 +2,11 @@ import User from '../models/User';
 
 
 const checkUserIsAdmin = async ({ decoded: { username } }, res, next) => {
-  try {
-    const userFound = await User.findByUsername(username);
-
+  try { 
+    User.findOne({ username }, (err, user) => {
+      console.log(user)
+    });
+    console.log(userFound);
     if (!userFound) {
       return res.status(404).json({
         message: 'You do not seem to be registered, please sign up or try again',// eslint-disable-line
